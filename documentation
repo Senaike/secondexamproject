@@ -1,0 +1,55 @@
+1. Repo Contents
+2. Different section in the repo
+3. How to run the repo
+        
+        Note 
+    Repo contents:
+               --Lamp stack  [apache, mysql, php,]
+               -- Laravel stack [lampbash.sh with ip : 192.168.20.11,,192 && 182.168.20.10]
+               -- Master-slave machine [master-slave.sh]
+               -- ansible
+    
+    Explanation on differnt sections of the repo
+      
+               -- master and slave files
+                     -- up the master and slave vm machines 
+                     -- Ip for slave : 192.168.20.11
+                     -- ip for master : 192.168.20.10
+        
+               -- ansible-playbook
+                       -- laravel-slave.sh >> inside files
+                           --- deploy laravel on the master machine
+                           --- install apache2 on the master machine
+                           --- install mysql with database and username/senaike
+                               mysql with database PASSWORD/senaike88..
+                           --- install of php latest version
+                       -- ansible .cfg
+                           [defaults]
+                              inventory = inventory
+                              private_key_file = ~/.ssh/id_rsa
+                              host_key_checking = false
+                       -- inventory
+                             ---- contains the Slave ip: 192.168.20.11
+                       -- page.yaml
+                           -name: set cron job check uptime of the server every 12am
+                              cron:
+                              name: Cron job - check server uptime 12am
+                              minute: "0"
+                              hour: "0"
+                              day: "*"
+                              month: "*"
+                              weekday: "*"
+                              job: "/usr/bin/uptime > /var/log/uptime_check.log 2>&1"
+                              state: present
+                          -name: copy the bash script to the slave machine
+                            copy:
+                            src: lampbash.sh
+                            dest: ~/
+                            owner: root
+                            group: root
+                            mode: 0744
+
+                                                                                                                                                                                                                                                                                                                                                 
+                
+
+         
