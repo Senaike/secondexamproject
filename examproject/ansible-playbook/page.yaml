@@ -1,0 +1,44 @@
+---
+
+ - hosts: all
+   become: yes
+   pre_tasks:
+
+ - name: update & upgrade server
+    apt:
+       update_cache: yes
+       upgrade: yes
+
+ - name: set cron job check uptime of the server every 12am
+    cron:
+       name: Cron job - check server uptime 12am
+       minute: "0"
+       hour: "0"
+       day: "*"
+       month: "*"
+       weekday: "*"
+       job: "/usr/bin/uptime > /var/log/uptime_check.log 2>&1"
+       state: present
+
+
+  name: copy the bash script to the slave machine
+    copy:
+       src: lampbash.sh
+       dest: ~/
+       owner: root
+       group: root
+       mode: 0744
+
+
+  name: set Execute permissions on the Script
+    command: chmod +x ~/lampbash.sh
+
+
+  name: Run Bash Script
+    command: bash lampbash.sh senaike senaike88 < /dev/dull
+      
+
+
+
+
+
